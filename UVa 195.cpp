@@ -1,31 +1,33 @@
 #include <iostream>
 #include <string>
 #include<algorithm>
+#include<vector>
 using namespace std;
-char edit(char s);
-bool comp(const char& lhs, const char& rhs);
 int main()
 {
-	int T; cin >> T;
+	int t;
+	cin >> t;
+	cin.ignore();
 	string input;
-	while (T--)
-	{
-		cin >> input;
-		sort(input.begin(), input.end(),comp);
-		cout << input << '\n';
-		while (next_permutation(input.begin(), input.end(), comp)) {
-			cout << input << '\n';
+	getline(cin, input);
+	while (t--) {
+		vector<string> v, copy;
+		while (getline(cin, input) && input != "")
+		{
+			v.push_back(input); copy.push_back(input);
 		}
+		sort(v.begin(), v.end());
+		sort(copy.begin(), copy.end());
+		for (int i = 0; i < copy.size(); i++) {
+			copy[i].erase(remove(copy[i].begin(), copy[i].end(), ' '), copy[i].end());
+			sort(copy[i].begin(), copy[i].end());
+		}
+		
+		for (int i = 0; i < v.size(); i++) {
+			for (int j = i+1; j < v.size(); j++) {
+				if (copy[i] == copy[j])cout << v[i] << " = " << v[j] << "\n";
+			}
+		}
+		if (t) cout << "\n";
 	}
-}
-bool comp(const char& lhs, const char& rhs){	
-	if (edit(lhs) == edit(rhs))
-		return lhs < rhs;
-	else
-		return edit(lhs) < edit(rhs);
-}
-char edit(char s) {
-	if (s >= 97 && s <= 122)
-			s = s - 32;
-	return s;
 }
