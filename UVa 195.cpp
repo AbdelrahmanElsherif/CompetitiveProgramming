@@ -1,21 +1,31 @@
 #include <iostream>
 #include <string>
 #include<algorithm>
-#include<vector>
-int main(){
-	int t; std::cin>>t;std::vector<std::string> output;
-	while (t--) {
-		std::vector<std::string> v;
-		std::string input;
-		std::cin >> input;
-		std::sort(input.begin(), input.end());
-		v.push_back(input);
-		while (next_permutation(input.begin(), input.end())){
-			v.push_back(input);
+using namespace std;
+char edit(char s);
+bool comp(const char& lhs, const char& rhs);
+int main()
+{
+	int T; cin >> T;
+	string input;
+	while (T--)
+	{
+		cin >> input;
+		sort(input.begin(), input.end(),comp);
+		cout << input << '\n';
+		while (next_permutation(input.begin(), input.end(), comp)) {
+			cout << input << '\n';
 		}
-		std::sort(v.begin(), v.end());
-		output.insert(output.end(), v.begin(), v.end());
 	}
-	for (auto &i : output)
-		std::cout << i << "\n";
+}
+bool comp(const char& lhs, const char& rhs){	
+	if (edit(lhs) == edit(rhs))
+		return lhs < rhs;
+	else
+		return edit(lhs) < edit(rhs);
+}
+char edit(char s) {
+	if (s >= 97 && s <= 122)
+			s = s - 32;
+	return s;
 }
